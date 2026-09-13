@@ -1,0 +1,12 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+button {
+    font-size: 18px;
+    padding: 10px 20px;
+}
+
+#interval-screen {
+    display: none
+}

@@ -41,6 +41,43 @@ function playNote(note, octave, duration =1) {
     oscillator.stop(audioContext.currentTime + duration); // Play for the specified duration
 }
 
+const notes = [
+    { note: "C", octave: 4 },
+    { note: "D", octave: 4 },
+    { note: "E", octave: 4 },
+    { note: "F", octave: 4 },
+    { note: "G", octave: 4 },
+    { note: "A", octave: 4 },
+    { note: "B", octave: 4 },
+    { note: "C", octave: 5 }
+];
+
+function getRandomNote() {
+    const randomIndex = Math.floor(Math.random() * notes.length);
+
+    return notes[randomIndex];
+}
+
+function generateInterval() {
+    const firstNote = getRandomNote();
+    const secondNote = getRandomNote();
+
+    return {
+        first: firstNote,
+        second: secondNote
+    };
+}
+
+
+function playInterval(interval) {
+    playNote(interval.first.note, interval.first.octave);
+
+    setTimeout(function() {
+        playNote(interval.second.note, interval.second.octave);
+    }, 1200);
+}
+console.log(generateInterval());
+
 //Buttons
 const intervalButton = document.getElementById("interval-button");
 
@@ -58,9 +95,10 @@ pitchButton.addEventListener("click", function() {
 
 const listenButton = document.getElementById("listen-button");
 
-
-
-
 listenButton.addEventListener("click", function() {
-    playNote("C", 2, 2); // Play A4 note for 1 second
+    const interval = generateInterval();
+
+    console.log(interval);
+
+    playInterval(interval);
 });

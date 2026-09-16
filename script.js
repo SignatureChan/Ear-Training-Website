@@ -43,11 +43,16 @@ function playNote(note, octave, duration =1) {
 
 const notes = [
     { note: "C", octave: 4 },
+    { note: "C#, octave: 4"},
     { note: "D", octave: 4 },
+    { note: "D#, octave: 4"},
     { note: "E", octave: 4 },
     { note: "F", octave: 4 },
+    { note: "F#, octave: 4"},
     { note: "G", octave: 4 },
+    { note: "G#, octave: 4"},
     { note: "A", octave: 4 },
+    { note: "A#, octave: 4"},
     { note: "B", octave: 4 },
     { note: "C", octave: 5 }
 ];
@@ -66,6 +71,41 @@ function generateInterval() {
         first: firstNote,
         second: secondNote
     };
+}
+
+const intervals = {
+    0: "Unison",
+    1: "Major Second",
+    2: "Major Second",
+    3: "Minor Third",
+    4: "Major Third",
+    5: "Perfect Fourth",
+    6: "Tritone",
+    7: "Perfect 5th",
+    8: "Minor Sixth",
+    9: "Major Sixth",
+    10: "Minor Seventh",
+    11: "Major Seventh",
+    12: "Octave"
+}
+
+function calculateInterval(interval) {
+    const firstPitch = notes.indexOf(interval.first);
+    const secondPitch = notes.indexOf(interval.secondNote);
+    let pitchDifference = secondPitch - firstPitch;
+    console.log("first pitch: ");
+    const descending = false;
+    if (pitchDifference < 0) { //checks if its negative, or descending
+        descending = true;
+        pitchDifference = Math.abs(pitchDifference);
+    }
+    const namedInterval = intervals.pitchDifference;
+    console.log(namedInterval);
+
+    //C to D => 2 - 0 = 2 => Major Second
+    //D to C => 0 -2 = 2 => Major Second (Descending)
+    //
+
 }
 
 
@@ -101,4 +141,5 @@ listenButton.addEventListener("click", function() {
     console.log(interval);
 
     playInterval(interval);
+    calculateInterval(interval);
 });

@@ -1,3 +1,10 @@
+/*
+button -> generateInterval()
+    generateInterval() -> randomFirstNote (from selected pitches), random interval (fron selected intervals), generateSecondNote() (use the first note and interval)
+        
+
+*/
+
 console.log("Ear Training loaded!");
 
 //Screens
@@ -20,6 +27,12 @@ const semitonesFromA = {
     "B": 2
 };
 
+// Note range for interval training
+const minimumNote = { note: "C", octave: 4 };
+const maximumNote = { note: "C", octave: 5 };
+
+
+
 function noteToFrequency(note, octave) {
     const a4Frequency = 440; // Frequency of A4
     const semitoneOffset = semitonesFromA[note] + (octave - 4) * 12; // Calculate the semitone offset from A4
@@ -33,7 +46,7 @@ function playNote(note, octave, duration =1) {
     const audioContext = new AudioContext();
     const oscillator = audioContext.createOscillator();
 
-    oscillator.frequency.value = frequency; // Set the frequency of the note
+    oscillator.frequency.value = frequency; // set the frequency of the note
 
     oscillator.connect(audioContext.destination);
 
@@ -43,16 +56,16 @@ function playNote(note, octave, duration =1) {
 
 const notes = [
     { note: "C", octave: 4 },
-    { note: "C#, octave: 4"},
+    { note: "C#", octave: 4},
     { note: "D", octave: 4 },
-    { note: "D#, octave: 4"},
+    { note: "D#", octave: 4},
     { note: "E", octave: 4 },
     { note: "F", octave: 4 },
-    { note: "F#, octave: 4"},
+    { note: "F#", octave: 4},
     { note: "G", octave: 4 },
-    { note: "G#, octave: 4"},
+    { note: "G#", octave: 4},
     { note: "A", octave: 4 },
-    { note: "A#, octave: 4"},
+    { note: "A#", octave: 4},
     { note: "B", octave: 4 },
     { note: "C", octave: 5 }
 ];
@@ -63,50 +76,63 @@ function getRandomNote() {
     return notes[randomIndex];
 }
 
-function generateInterval() {
+
+
+const intervals = {
+    "Unison": 0,
+    "Minor Second": 1,
+    "Major Second": 2,
+    "Perfect Fourth": 5,
+    "Perfect Fifth": 7,
+    "Octave": 12
+}
+
+function getRandomInterval() { //get random interval from "intervals"
+    const intervalNames = Object.keys(intervals);
+
+    const randomIndex = Math.floor(Math.random() * intervalNames.length);
+
+    return intervalNames[randomIndex];
+}
+
+function getSecondNote(firstNote, interval) {
+    const firstIndex = notes.indexOf(firstNote);
+    const semitones = intervals[interval];
+
+    return notes[firstIndex + semitones];
+}
+
+function generateInterval() { //take a note parameter, and then the interval (major 2nd, fourth, etc)
+    const interval = getRandomInterval();
     const firstNote = getRandomNote();
-    const secondNote = getRandomNote();
+    
+    const secondNote = getSecondNote(firstNote, interval);
 
     return {
+        interval: interval,
         first: firstNote,
         second: secondNote
     };
 }
 
-const intervals = {
-    0: "Unison",
-    1: "Major Second",
-    2: "Major Second",
-    3: "Minor Third",
-    4: "Major Third",
-    5: "Perfect Fourth",
-    6: "Tritone",
-    7: "Perfect 5th",
-    8: "Minor Sixth",
-    9: "Major Sixth",
-    10: "Minor Seventh",
-    11: "Major Seventh",
-    12: "Octave"
-}
+// function calculateInterval(interval) { DOESNT WORK
+//     const firstPitch = notes.indexOf(interval.first);
+//     const secondPitch = notes.indexOf(interval.secondNote);
+//     let pitchDifference = secondPitch - firstPitch;
+//     console.log("first pitch: ");
+//     const descending = false;
+//     if (pitchDifference < 0) { //checks if its negative, or descending
+//         descending = true;
+//         pitchDifference = Math.abs(pitchDifference);
+//     }
+//     const namedInterval = intervals.pitchDifference;
+//     console.log(namedInterval);
 
-function calculateInterval(interval) {
-    const firstPitch = notes.indexOf(interval.first);
-    const secondPitch = notes.indexOf(interval.secondNote);
-    let pitchDifference = secondPitch - firstPitch;
-    console.log("first pitch: ");
-    const descending = false;
-    if (pitchDifference < 0) { //checks if its negative, or descending
-        descending = true;
-        pitchDifference = Math.abs(pitchDifference);
-    }
-    const namedInterval = intervals.pitchDifference;
-    console.log(namedInterval);
+//     //C to D => 2 - 0 = 2 => Major Second
+//     //D to C => 0 -2 = 2 => Major Second (Descending)
+//     //
 
-    //C to D => 2 - 0 = 2 => Major Second
-    //D to C => 0 -2 = 2 => Major Second (Descending)
-    //
-
-}
+// }
 
 
 function playInterval(interval) {
@@ -117,6 +143,10 @@ function playInterval(interval) {
     }, 1200);
 }
 console.log(generateInterval());
+
+
+
+
 
 //Buttons
 const intervalButton = document.getElementById("interval-button");

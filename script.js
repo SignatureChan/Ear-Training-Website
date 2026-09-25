@@ -1,9 +1,4 @@
-/*
-button -> generateInterval()
-    generateInterval() -> randomFirstNote (from selected pitches), random interval (fron selected intervals), generateSecondNote() (use the first note and interval)
-        
 
-*/
 
 console.log("Ear Training loaded!");
 
@@ -27,9 +22,6 @@ const semitonesFromA = {
     "B": 2
 };
 
-// Note range for interval training
-const minimumNote = { note: "C", octave: 4 };
-const maximumNote = { note: "C", octave: 5 };
 
 
 
@@ -54,36 +46,36 @@ function playNote(note, octave, duration =1) {
     oscillator.stop(audioContext.currentTime + duration); // Play for the specified duration
 }
 
-const notes = [
-    { note: "C", octave: 4 },
-    { note: "C#", octave: 4},
-    { note: "D", octave: 4 },
-    { note: "D#", octave: 4},
-    { note: "E", octave: 4 },
-    { note: "F", octave: 4 },
-    { note: "F#", octave: 4},
-    { note: "G", octave: 4 },
-    { note: "G#", octave: 4},
-    { note: "A", octave: 4 },
-    { note: "A#", octave: 4},
-    { note: "B", octave: 4 },
-    { note: "C", octave: 5 }
-];
+// Note range for interval training
+const minimumNote = { note: "C", octave: 4 };
+const maximumNote = { note: "C", octave: 5 };
 
-function getRandomNote() {
-    const randomIndex = Math.floor(Math.random() * notes.length);
+function getRandomStartingNote(intervalSemitones) {
+    const minimumNumber = noteToNumber(minimumNote.note, minimumNote.octave);
+    const maximumNumber = noteToNumber(maximumNote.note, maximumNote.octave);
 
-    return notes[randomIndex];
+    const maximumStartingNumber = maximumNumber - intervalSemitones;
+
+    const randomNumber = Math.floor(
+        Math.random() * (maximumStartingNumber - minimumNumber + 1)
+    ) + minimumNumber;
+
+    return numberToNote(randomNumber);
 }
-
-
 
 const intervals = {
     "Unison": 0,
     "Minor Second": 1,
     "Major Second": 2,
+    "Minor Third": 3,
+    "Major Third": 4,
     "Perfect Fourth": 5,
+    "Tritone": 6,
     "Perfect Fifth": 7,
+    "Minor Sixth": 8,
+    "Major Sixth": 9,
+    "Minor Seventh": 10,
+    "Major Seventh": 11,
     "Octave": 12
 }
 
@@ -95,18 +87,42 @@ function getRandomInterval() { //get random interval from "intervals"
     return intervalNames[randomIndex];
 }
 
-function getSecondNote(firstNote, interval) {
-    const firstIndex = notes.indexOf(firstNote);
-    const semitones = intervals[interval];
-
-    return notes[firstIndex + semitones];
+function noteToNumber(note, octave) {
+    return semitonesFromA[note] + (octave * 12);
 }
 
-function generateInterval() { //take a note parameter, and then the interval (major 2nd, fourth, etc)
+function numberToNote(number) {
+    const adjustedNumber = number + 9
+
+    const octave = Math.floor(adjustedNumber / 12);
+    const semitone = adjustedNumber % 12;
+
+    const noteNames = Object.keys(semitonesFromA);
+
+    return {
+        note: noteNames[semitone],
+        octave: octave
+    };
+}
+
+function transposeNote(note, octave, semitones) {
+    const startingNum = noteToNumber(note, octave);
+    const newNum = startingNum + semitones;
+
+    return numberToNote(newNum);
+}
+
+function generateInterval() {
     const interval = getRandomInterval();
-    const firstNote = getRandomNote();
-    
-    const secondNote = getSecondNote(firstNote, interval);
+    const intervalSemitones = intervals[interval];
+
+    const firstNote = getRandomStartingNote(intervalSemitones);
+
+    const secondNote = transposeNote(
+        firstNote.note,
+        firstNote.octave,
+        intervalSemitones
+    );
 
     return {
         interval: interval,
@@ -115,25 +131,7 @@ function generateInterval() { //take a note parameter, and then the interval (ma
     };
 }
 
-// function calculateInterval(interval) { DOESNT WORK
-//     const firstPitch = notes.indexOf(interval.first);
-//     const secondPitch = notes.indexOf(interval.secondNote);
-//     let pitchDifference = secondPitch - firstPitch;
-//     console.log("first pitch: ");
-//     const descending = false;
-//     if (pitchDifference < 0) { //checks if its negative, or descending
-//         descending = true;
-//         pitchDifference = Math.abs(pitchDifference);
-//     }
-//     const namedInterval = intervals.pitchDifference;
-//     console.log(namedInterval);
-
-//     //C to D => 2 - 0 = 2 => Major Second
-//     //D to C => 0 -2 = 2 => Major Second (Descending)
-//     //
-
-// }
-
+let currentInterval = null;
 
 function playInterval(interval) {
     playNote(interval.first.note, interval.first.octave);
@@ -142,11 +140,6 @@ function playInterval(interval) {
         playNote(interval.second.note, interval.second.octave);
     }, 1200);
 }
-console.log(generateInterval());
-
-
-
-
 
 //Buttons
 const intervalButton = document.getElementById("interval-button");
@@ -166,10 +159,35 @@ pitchButton.addEventListener("click", function() {
 const listenButton = document.getElementById("listen-button");
 
 listenButton.addEventListener("click", function() {
-    const interval = generateInterval();
+    currentInterval = generateInterval();
 
-    console.log(interval);
+    console.log(currentInterval);
 
-    playInterval(interval);
-    calculateInterval(interval);
+    playInterval(currentInterval);
 });
+
+const feedback = document.getElementById("feedback");
+const revealedPitches = document.getElementById("revealed-pitches");
+const nextQuestionButton = document.getElementById("next-question-button");
+//ANSWER BUTTONS:
+
+const allAnswerButtons = document.getElementById("answer-buttons");
+const answerButtons = allAnswerButtons.querySelectorAll("button");
+answerButtons.forEach(function(button) {
+    button.addEventListener("click", function() {
+        console.log("You clicked:", button.textContent);
+        if (button.textContent === currentInterval.interval) {
+            feedback.textContent = "Correct!";
+
+            revealedPitches.textContent =
+                `${currentInterval.first.note}${currentInterval.first.octave} → ` +
+                `${currentInterval.second.note}${currentInterval.second.octave}`;
+            
+            nextQuestionButton.style.display = "block";
+
+        } else {
+            feedback.textContent = "Incorrect — try again.";
+        }
+    });
+});
+

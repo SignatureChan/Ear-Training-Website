@@ -10,3 +10,7 @@ button {
 #interval-screen {
     display: none
 }
+
+#next-question-button {
+    display: none
+}

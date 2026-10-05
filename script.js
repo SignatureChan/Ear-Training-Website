@@ -22,9 +22,6 @@ const semitonesFromA = {
     "B": 2
 };
 
-
-
-
 function noteToFrequency(note, octave) {
     const a4Frequency = 440; // Frequency of A4
     const semitoneOffset = semitonesFromA[note] + (octave - 4) * 12; // Calculate the semitone offset from A4
@@ -148,6 +145,8 @@ intervalButton.addEventListener("click", function() {
     console.log("Interval button clicked!");
     homeScreen.style.display = "none";
     intervalScreen.style.display = "block";
+    currentInterval = generateInterval();
+    console.log(currentInterval);
 });
 
 const pitchButton = document.getElementById("pitch-button");
@@ -159,18 +158,32 @@ pitchButton.addEventListener("click", function() {
 const listenButton = document.getElementById("listen-button");
 
 listenButton.addEventListener("click", function() {
-    currentInterval = generateInterval();
-
+    
+    currentInterval ??= generateInterval();
     console.log(currentInterval);
-
     playInterval(currentInterval);
+
 });
 
 const feedback = document.getElementById("feedback");
 const revealedPitches = document.getElementById("revealed-pitches");
-const nextQuestionButton = document.getElementById("next-question-button");
-//ANSWER BUTTONS:
 
+const nextQuestionButton = document.getElementById("next-question-button");
+nextQuestionButton.addEventListener("click", function() {
+    currentInterval = generateInterval();
+
+    feedback.textContent = "";
+    revealedPitches.textContent = "";
+
+    playInterval(currentInterval);
+    console.log(currentInterval);
+    nextQuestionButton.style.display = "none";
+})
+
+
+
+
+//ANSWER BUTTONS:
 const allAnswerButtons = document.getElementById("answer-buttons");
 const answerButtons = allAnswerButtons.querySelectorAll("button");
 answerButtons.forEach(function(button) {
@@ -190,4 +203,3 @@ answerButtons.forEach(function(button) {
         }
     });
 });
-

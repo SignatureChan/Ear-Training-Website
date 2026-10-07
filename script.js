@@ -45,7 +45,7 @@ function playNote(note, octave, duration =1) {
 
 // Note range for interval training
 const minimumNote = { note: "C", octave: 4 };
-const maximumNote = { note: "C", octave: 5 };
+const maximumNote = { note: "C", octave: 6 };
 
 function getRandomStartingNote(intervalSemitones) {
     const minimumNumber = noteToNumber(minimumNote.note, minimumNote.octave);
@@ -181,6 +181,10 @@ nextQuestionButton.addEventListener("click", function() {
 })
 
 
+var correctAnswers = 0;
+var incorrectAnswers = 0;
+
+const correctAnswer = document.getElementById("correctAnswerCount");
 
 
 //ANSWER BUTTONS:
@@ -190,8 +194,10 @@ answerButtons.forEach(function(button) {
     button.addEventListener("click", function() {
         console.log("You clicked:", button.textContent);
         if (button.textContent === currentInterval.interval) {
+            correctAnswers++;
+            console.log(correctAnswers);
             feedback.textContent = "Correct!";
-
+            correctAnswer.textContent = "You have gotten" + correctAnswers + "correct.";
             revealedPitches.textContent =
                 `${currentInterval.first.note}${currentInterval.first.octave} → ` +
                 `${currentInterval.second.note}${currentInterval.second.octave}`;

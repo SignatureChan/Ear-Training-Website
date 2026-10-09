@@ -5,6 +5,7 @@ console.log("Ear Training loaded!");
 //Screens
 const homeScreen = document.getElementById("home-screen");
 const intervalScreen = document.getElementById("interval-screen");
+const pitchScreen = document.getElementById("pitch-screen");
 
 //defines notes
 const semitonesFromA = {
@@ -197,7 +198,7 @@ answerButtons.forEach(function(button) {
             correctAnswers++;
             console.log(correctAnswers);
             feedback.textContent = "Correct!";
-            correctAnswer.textContent = "You have gotten" + correctAnswers + "correct.";
+            correctAnswer.textContent = "You have gotten " + correctAnswers + " correct.";
             revealedPitches.textContent =
                 `${currentInterval.first.note}${currentInterval.first.octave} → ` +
                 `${currentInterval.second.note}${currentInterval.second.octave}`;

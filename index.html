@@ -39,13 +39,43 @@
 
         <p id="revealed-pitches"></p>
 
-        <button id="next-question-button">Next Question</button>
+        <button id="interval-next-question-button">Next Question</button>
 
         <p id="correctAnswerCount">You have gotten 0 correct</p>
-        <p id="incorrectAnswerCount"
+        <p id="incorrectAnswerCount"></p>
+    </div> 
 
+    <div id="pitch-screen">
+        <h1>Pitch Identification</h1>
+
+        <button id="pitch-listen-button">Listen</button>
+
+        <p>What pitch did you hear?</p>
+
+        <div id="pitch-answer-buttons">
+            <button data-note="A">A</button>
+            <button data-note="A#">A#/Bb</button>
+            <button data-note="B">B</button>
+            <button data-note="C">C</button>
+            <button data-note="C#">C#/Db</button>
+            <button data-note="D">D</button>
+            <button data-note="D#">D#/Eb</button>
+            <button data-note="E">E</button>
+            <button data-note="F">F</button>
+            <button data-note="F#">F#/Gb</button>
+            <button data-note="G">G</button>
+            <button data-note="G#">G#/Ab</button>
+        </div>
+
+        <p id="pitch-feedback"></p>
+        <p id="pitch-revealed"></p>
+        <p id="pitch-correct-count">You have gotten 0 correct.</p>
+        <p id="pitch-incorrect-count">You have gotten 0 incorrect.</p>
+
+        <button id="pitch-next-question-button">Next Question</button>
+        <button id="pitch-home-button">Home</button>
     </div>
 
-    <script src="script.js"></script>
+    <script type="module" src="app.js"></script>
 </body>
 </html>

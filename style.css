@@ -11,6 +11,14 @@ button {
     display: none
 }
 
-#next-question-button {
+#interval-next-question-button {
+    display: none
+}
+
+#pitch-screen {
+    display: none
+}
+
+#pitch-next-question-button {
     display: none
 }

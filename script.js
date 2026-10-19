@@ -143,7 +143,7 @@ function playInterval(interval) {
 const intervalButton = document.getElementById("interval-button");
 
 intervalButton.addEventListener("click", function() {
-    console.log("Interval button clicked!");
+    console.log("Interval button clicked");
     homeScreen.style.display = "none";
     intervalScreen.style.display = "block";
     currentInterval = generateInterval();
@@ -153,7 +153,9 @@ intervalButton.addEventListener("click", function() {
 const pitchButton = document.getElementById("pitch-button");
 
 pitchButton.addEventListener("click", function() {
-    console.log("Pitch button clicked!");
+    console.log("Pitch button clicked");
+    homeScreen.style.display = "none";
+    pitchScreen.style.display = "block";
 });
 
 const listenButton = document.getElementById("listen-button");

@@ -4,7 +4,8 @@ import {
     intervals,
     noteToNumber,
     numberToNote,
-    transposeNote
+    transposeNote,
+    semitonesFromA
 } from "./music.js";
 
 const minimumNote = { note: "C", octave: 4 };
@@ -44,4 +45,12 @@ export function generateInterval() {
         first: firstNote,
         second: secondNote
     };
+}
+
+export function generateRandomPitch() {
+    const maxNum = noteToNumber(maximumNote.note, maximumNote.octave);
+    const minNum = noteToNumber(minimumNote.note, minimumNote.octave);
+    const randomNum = Math.floor(Math.random() * (maxNum - minNum + 1)) + minNum;
+
+    return numberToNote(randomNum);
 }

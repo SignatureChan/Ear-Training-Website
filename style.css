@@ -22,3 +22,25 @@ button {
 #pitch-next-question-button {
     display: none
 }
+
+
+
+/* Answer button feedback */
+.answer-correct {
+    background-color: #4caf50;
+    color: white;
+    border-color: #388e3c;
+}
+
+.answer-incorrect {
+    background-color: #e53935;
+    color: white;
+    border-color: #c62828;
+}
+
+.answer-disabled {
+    background-color: #d3d3d3;
+    color: #777;
+    border-color: #bbb;
+    cursor: not-allowed;
+}

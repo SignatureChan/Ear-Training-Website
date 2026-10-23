@@ -11,6 +11,61 @@
 
         <button id="interval-button">Interval Training</button>
         <button id="pitch-button">Pitch Practice</button>
+
+        <h2>Settings</h2>
+        <h3>General:</h3>
+        <div id="settings">
+            <label>
+                <input type="checkbox" id="reveal-answer-toggle">
+                Reveal correct answer after an incorrect guess
+            </label>
+        </div>
+
+        
+        
+    <div id="interval-settings">
+        <h3>Interval Training: Available Intervals</h3>
+        <p>Select which intervals can appear in Interval Training</p>
+
+        <div id="interval-selection-buttons">
+            <button type="button" data-interval="Unison">Unison</button>
+            <button type="button" data-interval="Minor Second">Minor Second</button>
+            <button type="button" data-interval="Major Second">Major Second</button>
+            <button type="button" data-interval="Minor Third">Minor Third</button>
+            <button type="button" data-interval="Major Third">Major Third</button>
+            <button type="button" data-interval="Perfect Fourth">Perfect Fourth</button>
+            <button type="button" data-interval="Tritone">Tritone</button>
+            <button type="button" data-interval="Perfect Fifth">Perfect Fifth</button>
+            <button type="button" data-interval="Minor Sixth">Minor Sixth</button>
+            <button type="button" data-interval="Major Sixth">Major Sixth</button>
+            <button type="button" data-interval="Minor Seventh">Minor Seventh</button>
+            <button type="button" data-interval="Major Seventh">Major Seventh</button>
+            <button type="button" data-interval="Octave">Octave</button>
+        </div>
+    </div>
+
+
+        <div id="pitch-settings">
+            <h3>Pitch Practice: Available Notes</h3>
+            <p>Select which notes can appear in Pitch Practice</p>
+
+            <div id="pitch-selection-buttons">
+                <button type="button" data-pitch="C">C</button>
+                <button type="button" data-pitch="C#">C#/Db</button>
+                <button type="button" data-pitch="D">D</button>
+                <button type="button" data-pitch="D#">D#/Eb</button>
+                <button type="button" data-pitch="E">E</button>
+                <button type="button" data-pitch="F">F</button>
+                <button type="button" data-pitch="F#">F#/Gb</button>
+                <button type="button" data-pitch="G">G</button>
+                <button type="button" data-pitch="G#">G#/Ab</button>
+                <button type="button" data-pitch="A">A</button>
+                <button type="button" data-pitch="A#">A#/Bb</button>
+                <button type="button" data-pitch="B">B</button>
+            </div>
+        </div>
+
+
     </div>
 
     <div id="interval-screen">
@@ -42,7 +97,12 @@
         <button id="interval-next-question-button">Next Question</button>
 
         <p id="correctAnswerCount">You have gotten 0 correct</p>
-        <p id="incorrectAnswerCount"></p>
+        <p id="incorrectAnswerCount">You have gotten 0 incorrect</p>
+        
+
+        <button id="interval-home-button">Home</button>
+
+
     </div> 
 
     <div id="pitch-screen">
@@ -69,11 +129,14 @@
 
         <p id="pitch-feedback"></p>
         <p id="pitch-revealed"></p>
-        <p id="pitch-correct-count">You have gotten 0 correct.</p>
-        <p id="pitch-incorrect-count">You have gotten 0 incorrect.</p>
+        <p id="pitch-correct-count">You have gotten 0 correct</p>
+        <p id="pitch-incorrect-count">You have gotten 0 incorrect</p>
 
         <button id="pitch-next-question-button">Next Question</button>
         <button id="pitch-home-button">Home</button>
+
+    
+
     </div>
 
     <script type="module" src="app.js"></script>

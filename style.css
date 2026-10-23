@@ -27,13 +27,13 @@ button {
 
 /* Answer button feedback */
 .answer-correct {
-    background-color: #4caf50;
+    background-color: #66c769;
     color: white;
     border-color: #388e3c;
 }
 
 .answer-incorrect {
-    background-color: #e53935;
+    background-color: #ec4e4b;
     color: white;
     border-color: #c62828;
 }
@@ -43,4 +43,42 @@ button {
     color: #777;
     border-color: #bbb;
     cursor: not-allowed;
+}
+
+
+#interval-selection-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+#interval-selection-buttons button {
+    color: #222;
+    cursor: pointer;
+}
+
+#interval-selection-buttons button.selected {
+    background-color: #4caf50;
+    color: white;
+    border-color: #388e3c;
+}
+
+
+#pitch-selection-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+#pitch-selection-buttons button {
+    min-width: 65px;
+    cursor: pointer;
+}
+
+#pitch-selection-buttons button.selected {
+    background-color: #4caf50;
+    color: white;
+    border-color: #388e3c;
 }

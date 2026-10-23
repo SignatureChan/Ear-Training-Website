@@ -23,14 +23,14 @@ function getRandomStartingNote(intervalSemitones) {
     return numberToNote(randomNumber);
 }
 
-export function getRandomInterval() {
-    const intervalNames = Object.keys(intervals);
+export function getRandomInterval(selectedIntervals) {
+    const intervalNames = [...selectedIntervals];
     const randomIndex = Math.floor(Math.random() * intervalNames.length);
     return intervalNames[randomIndex];
 }
 
-export function generateInterval() {
-    const interval = getRandomInterval();
+export function generateInterval(selectedIntervals) {
+    const interval = getRandomInterval(selectedIntervals);
     const intervalSemitones = intervals[interval];
     const firstNote = getRandomStartingNote(intervalSemitones);
 
@@ -47,10 +47,28 @@ export function generateInterval() {
     };
 }
 
-export function generateRandomPitch() {
+
+export function generateRandomPitch(selectedPitches) {
     const maxNum = noteToNumber(maximumNote.note, maximumNote.octave);
     const minNum = noteToNumber(minimumNote.note, minimumNote.octave);
-    const randomNum = Math.floor(Math.random() * (maxNum - minNum + 1)) + minNum;
 
-    return numberToNote(randomNum);
+    // Build a list of all pitches within the allowed range.
+    const possiblePitches = [];
+
+    for (let number = minNum; number <= maxNum; number++) {
+        const pitch = numberToNote(number);
+
+        // Keep only pitches whose note name is enabled.
+        if (selectedPitches.has(pitch.note)) {
+            possiblePitches.push(pitch);
+        }
+    }
+
+    // Choose one pitch randomly from the remaining possibilities.
+    const randomIndex = Math.floor(
+        Math.random() * possiblePitches.length
+    );
+
+    return possiblePitches[randomIndex];
 }
+

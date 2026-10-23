@@ -5,27 +5,45 @@ body {
 button {
     font-size: 18px;
     padding: 10px 20px;
+    margin: 2px;
+}
+
+#interval-button {
+    color: #116df7
 }
 
 #interval-screen {
     display: none
+}
+#interval-answer-buttons {
+    width: 550px;
 }
 
 #interval-next-question-button {
     display: none
 }
 
+#pitch-button {
+    color: #d11913
+}
+
 #pitch-screen {
     display: none
+}
+
+#pitch-answer-buttons {
+    width: 550px;
 }
 
 #pitch-next-question-button {
     display: none
 }
 
+#settings-pannel {
+    display: none
+}
 
-
-/* Answer button feedback */
+/* answer button feedback */
 .answer-correct {
     background-color: #66c769;
     color: white;
@@ -45,16 +63,20 @@ button {
     cursor: not-allowed;
 }
 
-
+/* the setting buttons */
 #interval-selection-buttons {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
     margin-top: 10px;
+    width: 530px;
 }
 
 #interval-selection-buttons button {
-    color: #222;
+    min-width: 40px;
+    color: #116df7;
+    font-size: 16px; 
+    padding: 4px 8px;
     cursor: pointer;
 }
 
@@ -68,17 +90,22 @@ button {
 #pitch-selection-buttons {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 4px;
     margin-top: 10px;
+    font-size: 50px;
+    width: 350px;
 }
 
 #pitch-selection-buttons button {
-    min-width: 65px;
+    min-width: 40px;
     cursor: pointer;
+    font-size: 16px; 
+    padding: 4px 8px;
+    color: #d11913
 }
 
 #pitch-selection-buttons button.selected {
     background-color: #4caf50;
     color: white;
-    border-color: #388e3c;
+    /* border-color: #8e5f38; */
 }

@@ -1,4 +1,4 @@
-// Connects the HTML interface to the exercise and audio functions
+// connects the HTML interface to the exercise and audio functions
 
 import { generateInterval, generateRandomPitch } from "./exercises.js";
 import { playInterval, playNote } from "./audio.js";
@@ -9,6 +9,25 @@ console.log("Ear Training loaded!");
 const homeScreen = document.getElementById("home-screen");
 const intervalScreen = document.getElementById("interval-screen");
 const pitchScreen = document.getElementById("pitch-screen");
+
+// Pannels:
+const settingsPannel = document.getElementById("settings-pannel");
+
+//Settings-navigation:
+const showSettingsButton = document.getElementById("show-settings-button");
+let showingSettings = false;
+
+showSettingsButton.addEventListener("click", function() {
+    if (!showingSettings) {
+        settingsPannel.style.display = "block";
+        showingSettings = true;
+    } else if (showingSettings) {
+        settingsPannel.style.display = "none";
+        showingSettings = false;
+    }
+    
+    console.log("settings pressed.");
+})
 
 // Home-screen navigation
 const intervalButton = document.getElementById("interval-button");
@@ -26,7 +45,6 @@ pitchButton.addEventListener("click", function () {
     intervalScreen.style.display = "none";
     pitchScreen.style.display = "block";
 });
-
 
 const intervalSelectionButtons = document.querySelectorAll(
     "#interval-selection-buttons button"
@@ -47,7 +65,7 @@ intervalSelectionButtons.forEach(function (button) {
         const interval = button.dataset.interval;
 
         if (selectedIntervals.has(interval)) {
-            // Keep at least one interval enabled.
+            // keep at least one interval enabled
             if (selectedIntervals.size === 1) {
                 return;
             }
@@ -60,7 +78,6 @@ intervalSelectionButtons.forEach(function (button) {
         }
     });
 });
-
 
 const pitchSelectionButtons = document.querySelectorAll(
     "#pitch-selection-buttons button"
@@ -101,18 +118,18 @@ const revealAnswerToggle = document.getElementById("reveal-answer-toggle");
 
 // Interval training
 let currentInterval = null;
-let correctAnswers = 0;
-let incorrectAnswers = 0;
+let intervalCorrectAnswers = 0;
+let intervalIncorrectAnswers = 0;
 
 const listenButton = document.getElementById("listen-button");
 const feedback = document.getElementById("feedback");
 const revealedPitches = document.getElementById("revealed-pitches");
 const nextQuestionButton = document.getElementById("interval-next-question-button");
-const correctAnswerCount = document.getElementById("correctAnswerCount");
-const incorrectAnswerCount = document.getElementById("incorrectAnswerCount");
+const intervalCorrectAnswerCount = document.getElementById("interval-correct-answer-count");
+const intervalIncorrectAnswerCount = document.getElementById("interval-incorrectAnswerCount");
 
-const answerButtonsContainer = document.getElementById("answer-buttons");
-const answerButtons = answerButtonsContainer.querySelectorAll("button");
+const intervalAnswerButtonsContainer = document.getElementById("interval-answer-buttons");
+const intervalAnswerButtons = intervalAnswerButtonsContainer.querySelectorAll("button");
 
 const intervalHomeButton = document.getElementById("interval-home-button");
 
@@ -121,7 +138,7 @@ function resetIntervalFeedback() { //reset feedback and colors
     revealedPitches.textContent = "";
     nextQuestionButton.style.display = "none";
 
-    answerButtons.forEach(function (button) {
+    intervalAnswerButtons.forEach(function (button) {
         button.disabled = false;
 
         button.classList.remove(
@@ -151,23 +168,30 @@ intervalHomeButton.addEventListener("click", function () {
 
     currentInterval = null;
     resetIntervalFeedback();
-    correctAnswers = 0;
-    incorrectAnswers = 0;
+    updateIntervalScore();
+    // intervalCorrectAnswers = 0;
+    // intervalIncorrectAnswers = 0;
 
 });
-        
-answerButtons.forEach(function (button) {
+
+function updateIntervalScore() {
+    intervalCorrectAnswerCount.textContent =
+        `You have gotten ${intervalCorrectAnswers} correct.`;
+
+    intervalIncorrectAnswerCount.textContent =
+        `You have gotten ${intervalIncorrectAnswers} incorrect.`;
+}
+
+intervalAnswerButtons.forEach(function (button) { //check if the pressed button was correct or not. 
     button.addEventListener("click", function () {
         if (!currentInterval || nextQuestionButton.style.display === "block") {
             return;
         }
 
         if (button.textContent.trim() === currentInterval.interval) {
-            correctAnswers++;
-
+            intervalCorrectAnswers++;
             feedback.textContent = "Correct!";
-            correctAnswerCount.textContent =
-                "You have gotten " + correctAnswers + " correct";
+            updateIntervalScore();
 
             revealedPitches.textContent =
                 `${currentInterval.first.note}${currentInterval.first.octave} → ` +
@@ -175,27 +199,26 @@ answerButtons.forEach(function (button) {
 
             nextQuestionButton.style.display = "block";
 
-            // Highlight the correct answer in green.
+            // highlight the correct answer in green.
             button.classList.add("answer-correct");
 
-            // Disable all choices and gray out the other answers.
-            answerButtons.forEach(function (answerButton) {
+            // disable all choices and gray out the other answers.
+            intervalAnswerButtons.forEach(function (answerButton) {
                 answerButton.disabled = true;
 
-                if (answerButton !== button) {
+                if (answerButton !== button && !answerButton.classList.contains("answer-incorrect")) {
                     answerButton.classList.add("answer-disabled");
                 }
             });
 
         
         } else {
-            incorrectAnswers++;
+            intervalIncorrectAnswers++;
 
             feedback.textContent = "Incorrect — try again.";
-            incorrectAnswerCount.textContent =
-                "You have gotten " + incorrectAnswers + " incorrect";
+            updateIntervalScore();
 
-            // Mark the selected wrong answer red and disable it.
+            // mark the selected wrong answer red and disable it.
             button.classList.add("answer-incorrect");
             button.disabled = true;
 
@@ -210,7 +233,7 @@ answerButtons.forEach(function (button) {
                 nextQuestionButton.style.display = "block";
 
                 // Reveal the right interval and disable all choices.
-                answerButtons.forEach(function (answerButton) {
+                intervalAnswerButtons.forEach(function (answerButton) {
                     answerButton.disabled = true;
 
                     if (answerButton.textContent.trim() === currentInterval.interval) {
@@ -224,8 +247,6 @@ answerButtons.forEach(function (button) {
 
     });
 });
-
-
 
 //PITCH SCREEN
 
@@ -283,7 +304,7 @@ pitchAnswerButtons.forEach(function (button) {
         pitchAnswerButtons.forEach(function (answerButton) {
             answerButton.disabled = true;
 
-            if (answerButton !== button) {
+            if (answerButton !== button && !answerButton.classList.contains("answer-incorrect")) {
                 answerButton.classList.add("answer-disabled");
             }
         });
@@ -321,7 +342,6 @@ pitchAnswerButtons.forEach(function (button) {
             });
         }
     }
-
 
     });
 });
@@ -370,10 +390,11 @@ pitchHomeButton.addEventListener("click", function () {
     pitchScreen.style.display = "none";
     homeScreen.style.display = "block";
 
+    currentPitch = null;
     resetPitchQuestion();
-    pitchCorrectAnswers = 0;
-    pitchIncorrectAnswers = 0;
+    // pitchCorrectAnswers = 0;
+    // pitchIncorrectAnswers = 0;
     updatePitchScore();
 
-    currentPitch = null;
+    
 });

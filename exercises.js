@@ -8,6 +8,7 @@ import {
     semitonesFromA
 } from "./music.js";
 
+// the range of notes that can be used for generating questions
 const minimumNote = { note: "C", octave: 4 };
 const maximumNote = { note: "C", octave: 6 };
 

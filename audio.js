@@ -1,4 +1,4 @@
-// Audio playback functions
+// audio playback functions
 
 import { noteToFrequency } from "./music.js";
 

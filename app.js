@@ -1,5 +1,6 @@
 // connects the HTML interface to the exercise and audio functions
 
+//imports necessary functions
 import { generateInterval, generateRandomPitch } from "./exercises.js";
 import { playInterval, playNote } from "./audio.js";
 
@@ -13,7 +14,7 @@ const pitchScreen = document.getElementById("pitch-screen");
 // Pannels:
 const settingsPannel = document.getElementById("settings-pannel");
 
-//Settings-navigation:
+//Settings:
 const showSettingsButton = document.getElementById("show-settings-button");
 let showingSettings = false;
 
@@ -49,6 +50,13 @@ pitchButton.addEventListener("click", function () {
 const intervalSelectionButtons = document.querySelectorAll(
     "#interval-selection-buttons button"
 );
+
+//the above code is the same as this, but it uses a css identifier instead of the html id. 
+// const intervalSelectionContainer =
+//     document.getElementById("interval-selection-buttons");
+
+// const intervalSelectionButtons =
+//     intervalSelectionContainer.querySelectorAll("button");
 
 // All intervals are enabled by default.
 const selectedIntervals = new Set(
@@ -98,7 +106,7 @@ pitchSelectionButtons.forEach(function (button) {
         const pitch = button.dataset.pitch;
 
         if (selectedPitches.has(pitch)) {
-            // Don't allow the user to disable the final remaining note.
+            // one pitch must be enabled at least
             if (selectedPitches.size === 1) {
                 return;
             }
@@ -311,6 +319,7 @@ pitchAnswerButtons.forEach(function (button) {
 
     } else {
         pitchIncorrectAnswers++;
+        updatePitchScore();
 
         pitchFeedback.textContent = "Incorrect — try again.";
 
